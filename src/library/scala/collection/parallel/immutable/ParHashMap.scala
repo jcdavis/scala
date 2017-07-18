@@ -245,7 +245,7 @@ extends scala.collection.parallel.BucketCombiner[(K, V), ParHashMap[K, V], (K, V
         while (i < chunksz) {
           val kv = chunkarr(i)
           val hc = trie.computeHash(kv._1)
-          trie = trie.updated0(kv._1, hc, rootbits, kv._2, kv, null)
+          trie = trie.updated0(kv._1, hc, rootbits, kv._2, kv, null, false)
           i += 1
         }
         i = 0
@@ -290,7 +290,7 @@ extends scala.collection.parallel.BucketCombiner[(K, V), ParHashMap[K, V], (K, V
             case Some(cmb) => cmb
             case None =>
               val cmb: Combiner[V, Repr] = cbf()
-              trie = trie.updated0[Combiner[V, Repr]](kv._1, hc, rootbits, cmb, null, null)
+              trie = trie.updated0[Combiner[V, Repr]](kv._1, hc, rootbits, cmb, null, null, false)
               cmb
           }
           cmb += kv._2
